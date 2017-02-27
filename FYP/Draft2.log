@@ -1,0 +1,32 @@
+Questionable use of curly braces in "v2 clk0 0 pulse(0 1 {t_delay} 1n 1n {t_0n} {t_period} 1)"
+    Error: undefined symbol in: "[t_0n]"
+Questionable use of curly braces in "v3 clk0 0 pulse(0 1 {t_delay} 1n 1n {t_0n} {t_period} 1)"
+    Error: undefined symbol in: "[t_0n]"
+Questionable use of curly braces in "v4 clk0 0 pulse(0 1 {t_delay} 1n 1n {t_0n} {t_period} 1)"
+    Error: undefined symbol in: "[t_0n]"
+Questionable use of curly braces in "v5 clk0 0 pulse(0 1 {t_delay} 1n 1n {t_0n} {t_period} 1)"
+    Error: undefined symbol in: "[t_0n]"
+Questionable use of curly braces in "v6 clk0 0 pulse(0 1 {t_delay} 1n 1n {t_0n} {t_period} 1)"
+    Error: undefined symbol in: "[t_0n]"
+Questionable use of curly braces in "v8 clk0 0 pulse(0 1 {t_delay} 1n 1n {t_0n} {t_period} 1)"
+    Error: undefined symbol in: "[t_0n]"
+Questionable use of curly braces in "v9 clk0 0 pulse(0 1 {t_delay} 1n 1n {t_0n} {t_period} 1)"
+    Error: undefined symbol in: "[t_0n]"
+Circuit: *
+
+Error on line 7 : v2 clk0 0 pulse(0 1  0.0001  1n 1n (t_0n)  0.01  1)
+	 Unknown parameter "t_0n"
+Error on line 8 : v3 clk0 0 pulse(0 1  0.0001  1n 1n (t_0n)  0.01  1)
+	 Unknown parameter "t_0n"
+Error on line 9 : v4 clk0 0 pulse(0 1  0.0001  1n 1n (t_0n)  0.01  1)
+	 Unknown parameter "t_0n"
+Error on line 10 : v5 clk0 0 pulse(0 1  0.0001  1n 1n (t_0n)  0.01  1)
+	 Unknown parameter "t_0n"
+Error on line 11 : v6 clk0 0 pulse(0 1  0.0001  1n 1n (t_0n)  0.01  1)
+	 Unknown parameter "t_0n"
+Error on line 13 : v8 clk0 0 pulse(0 1  0.0001  1n 1n (t_0n)  0.01  1)
+	 Unknown parameter "t_0n"
+Error on line 14 : v9 clk0 0 pulse(0 1  0.0001  1n 1n (t_0n)  0.01  1)
+	 Unknown parameter "t_0n"
+Fatal Error: Voltage source V8 and voltage source V9 are paralleled making an over-defined circuit matrix.
+You will need to correct the circuit or add some series resistance.

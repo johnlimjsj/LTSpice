@@ -1,0 +1,64 @@
+* /Users/johnlimjsj/Documents/LTspice/FYP/CIR_CDC.asc
+V11 Vdd 0 5
+Csensor Vxx N017 {c_lsb}
+V1 sig 0 PULSE(0 3 0 1n 1n 1m 2m 1)
+V3 phi2 0 PULSE(0 3 {t_delay} 1n 1n {t_on+t_offset} {t_period} 1)
+V2 phi1 0 PULSE(0 3 {t_delay} 1n 1n {t_on} {t_period} 1)
+S1 0 Vxx phi1 0 SW
+V4 b0 0 PULSE(0 3 {t_delay+t_on+t_offset*4} 1n 1n {t_on} {t_period} 1)
+V5 phi2_ 0 PULSE(0 3 {t_delay+t_on+t_offset*1.05} 1n 1n {t_period-t_on+t_offset} {t_period} 1)
+S4 N007 N015 b0 0 SW
+S5 N008 N016 b0 0 SW
+XX1 0 Vdd phi2 N017 com_spdt
+XX2 N008 Vxx com_cap params: C={1*c_lsb}
+XX3 N007 Vxx com_cap params: C={2*c_lsb}
+XX4 0 Vdd 0 N015 com_spdt
+XX5 0 Vdd 0 N016 com_spdt
+S2 N006 N014 b0 0 SW
+XX6 N006 Vxx com_cap params: C={4*c_lsb}
+XX7 0 Vdd 0 N014 com_spdt
+S3 N005 N013 b0 0 SW
+XX8 N005 Vxx com_cap params: C={8*c_lsb}
+XX9 0 Vdd 0 N013 com_spdt
+S6 N004 N012 b0 0 SW
+XX10 N004 Vxx com_cap params: C={16*c_lsb}
+XX11 0 Vdd 0 N012 com_spdt
+S7 N003 N011 b0 0 SW
+XX12 N003 Vxx com_cap params: C={32*c_lsb}
+XX13 0 Vdd b0 N011 com_spdt
+S8 N002 N010 b0 0 SW
+XX14 N002 Vxx com_cap params: C={64*c_lsb}
+XX15 0 Vdd b0 N010 com_spdt
+S9 N001 N009 b0 0 SW
+XX16 N001 Vxx com_cap params: C={128*c_lsb}
+XX17 0 Vdd b0 N009 com_spdt
+
+* block symbol definitions
+.subckt com_spdt INV N-INV SIG SW
+S1 SW INV N001 0 SW
+A1 SIG 0 0 0 0 N001 0 0 BUF
+S2 SW N-INV SIG 0 SW
+.model SW SW(Ron=10 Roff=10g Vt=0.5)
+.ends com_spdt
+
+.subckt com_cap + -
+C1 + - {C}
+.ic V(+)=0
+.ends com_cap
+
+.tran {5m} {10m}
+.model SW SW(Ron=5 Roff=10g Vt=1.1 Vh=0)
+* .ac oct 100 1 10000k
+* Analysis Commands
+;TIMING
+.param t_period 2m
+.param t_on 0.5m
+.param t_offset 0.1m
+.param t_delay 1m
+.ic V(c3_ic)=0
+.ic V(c2_ic)=0
+.ic V(c1_ic)=0
+.ic V(Vx)=0
+.param c_lsb 10n
+.backanno
+.end

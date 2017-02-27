@@ -1,0 +1,22 @@
+*
+R1 OUT N001 R=20
+C1 OUT 0 1p
+V1 IN1 0 4
+R2 0 IN1 20
+B1 N001 0 V=V(IN1)
+V2 CLK0 0 PULSE(0 1 {t_delay} 1n 1n {t_0n} {t_period} 1)
+V3 CLK0 0 PULSE(0 1 {t_delay} 1n 1n {t_0n} {t_period} 1)
+V4 CLK0 0 PULSE(0 1 {t_delay} 1n 1n {t_0n} {t_period} 1)
+V5 CLK0 0 PULSE(0 1 {t_delay} 1n 1n {t_0n} {t_period} 1)
+V6 CLK0 0 PULSE(0 1 {t_delay} 1n 1n {t_0n} {t_period} 1)
+V7 CLK1 0 PULSE(0 1 {t_delay} 1n 1n {t_on+t_delay} {t_period} 1)
+V8 CLK0 0 PULSE(0 1 {t_delay} 1n 1n {t_0n} {t_period} 1)
+V9 CLK0 0 PULSE(0 1 {t_delay} 1n 1n {t_0n} {t_period} 1)
+.tran 1m 10m
+.param V = {if(4>0.5,1,2)}
+;TIMINGS
+.param t_delay 0.1m
+.param t_on 0.5m
+.param t_period 10m
+.backanno
+.end
