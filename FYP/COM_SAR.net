@@ -1,0 +1,85 @@
+* /Users/johnlimjsj/Documents/LTspice/FYP/Draft2.asc
+V2 CLK4 0 PULSE(0 1 {t_delay+4*t_on} 1n 1n {t_on} {t_period} 1)
+V3 CLK5 0 PULSE(0 1 {t_delay+5*t_on} 1n 1n {t_on} {t_period} 1)
+V4 CLK6 0 PULSE(0 1 {t_delay+6*t_on} 1n 1n {t_on} {t_period} 1)
+V5 CLK7 0 PULSE(0 1 {t_delay+7*t_on} 1n 1n {t_on} {t_period} 1)
+V6 CLK0 0 PULSE(0 1 {t_delay} 1n 1n {t_on} {t_period} 1)
+V7 CLK1 0 PULSE(0 1 {t_delay+t_on} 1n 1n {t_on} {t_period} 1)
+V8 CLK2 0 PULSE(0 1 {t_delay+2*t_on} 1n 1n {t_on} {t_period} 1)
+V9 CLK3 0 PULSE(0 1 {t_delay+3*t_on} 1n 1n {t_on} {t_period} 1)
+V10 Vref 0 1
+XX1 CLK6 COMP COMP6 com_sampleandhold params: C=1u, IC=0
+XX2 CLK7 COMP COMP7 com_sampleandhold params: C=1u, IC=0
+XX3 CLK2 COMP COMP2 com_sampleandhold params: C=1u, IC=0
+XX4 CLK3 COMP COMP3 com_sampleandhold params: C=1u, IC=0
+XX5 CLK4 COMP COMP4 com_sampleandhold params: C=1u, IC=0
+XX6 CLK5 COMP COMP5 com_sampleandhold params: C=1u, IC=0
+XX7 CLK0 COMP COMP0 com_sampleandhold params: C=1u, IC=0
+XX8 CLK1 COMP COMP1 com_sampleandhold params: C=1u, IC=0
+A2 Vref N001 OFF0 OFF0 OFF0 N002 b0 OFF0 AND
+XX10 CLK1 COMP0 N001 com_sampleandhold params: C=1u, IC=1
+A11 N003 OFF1 N004 OFF1 OFF1 OFF1 b1 OFF1 AND
+XX12 CLK1 Vref N003 com_sampleandhold params: C=1u, IC=0
+XX13 CLK2 COMP1 N004 com_sampleandhold params: C=1u, IC=1
+A13 N005 OFF2 N006 OFF2 OFF2 OFF2 b2 OFF2 AND
+XX17 CLK2 Vref N005 com_sampleandhold params: C=1u, IC=0
+XX18 CLK3 COMP2 N006 com_sampleandhold params: C=1u, IC=1
+A15 N007 OFF3 N008 OFF3 OFF3 OFF3 b3 OFF3 AND
+XX19 CLK3 Vref N007 com_sampleandhold params: C=1u, IC=0
+XX20 CLK4 COMP3 N008 com_sampleandhold params: C=1u, IC=1
+A17 N009 OFF4 N010 OFF4 OFF4 OFF4 b4 OFF4 AND
+XX21 CLK4 Vref N009 com_sampleandhold params: C=1u, IC=0
+XX22 CLK5 COMP4 N010 com_sampleandhold params: C=1u, IC=1
+A23 N011 OFF5 N012 OFF5 OFF5 OFF5 b5 OFF5 AND
+XX23 CLK5 Vref N011 com_sampleandhold params: C=1u, IC=0
+XX24 CLK6 COMP5 N012 com_sampleandhold params: C=1u, IC=1
+A25 N013 OFF6 N014 OFF6 OFF6 OFF6 b6 OFF6 AND
+XX25 CLK6 Vref N013 com_sampleandhold params: C=1u, IC=0
+XX26 CLK7 COMP6 N014 com_sampleandhold params: C=1u, IC=1
+A27 N015 OFF7 Vref OFF7 OFF7 OFF7 b7 OFF7 AND
+XX27 CLK7 Vref N015 com_sampleandhold params: C=1u, IC=0
+V16 OFF0 0 {0*SAR_Voffset}
+V17 OFF1 0 {1*SAR_Voffset}
+V18 OFF2 0 {2*SAR_Voffset}
+V19 OFF3 0 {3*SAR_Voffset}
+V20 OFF4 0 {4*SAR_Voffset}
+V21 OFF5 0 {5*SAR_Voffset}
+V22 OFF6 0 {6*SAR_Voffset}
+V23 OFF7 0 {7*SAR_Voffset}
+V1 COMP_ 0 PULSE(0 1.01 {t_delay} 1n 1n {2*t_on} {4*t_on} 4)
+V11 P 0 PWL(1m 1 +1m 0 +1m 1 +1m 0)
+
+* block symbol definitions
+.subckt com_sampleandhold SAM VIN OUT
+XU1 OUT c0_ic OUT opamp Aol=100K GBW=10Meg
+S1 VIN c0_ic SAM 0 SW
+C1 c0_ic 0 {C}
+.ic V(c0_ic)={IC}
+.lib opamp.sub
+.model SW SW(Ron=1 Roff=10g Vt=0.5 Vh=0)
+.ends com_sampleandhold
+
+;TIMINGS
+.param t_delay {t_conv_begin}
+.param t_on 0.5m
+.param t_period 10m
+; HOLD Capacitor Capacitance
+.param c_hold 1u
+; OFFSET Voltage on the SAR Output
+.param SAR_Voffset 0.02
+* MSB
+* LSB
+;Reference Parameters and Model Definitions
+.param vref 1
+.ic V(c0_ic)=0
+.model SW SW(Ron=0.01 Roff=10g Vt=0.5 Vh=0)
+.lib opamp.sub
+.tran 1m 10m
+* Comparator Sampling Clocks
+.param t1 {t_on+t_delay}
+.param t1_delay {t1+0.01*t_on}
+.param t2 {2*t_on+t_delay}
+;TIMINGS
+.param t_conv 2m  ; {t_conversion}
+.backanno
+.end
